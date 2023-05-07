@@ -114,7 +114,12 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
                                 cursor-pointer 
                                 transition 
                                 hover:text-red-500
-                            ">
+                            "
+                        >
+                            <AiOutlineHeart size = {20} />
+                            <p>
+                                {data.comments?.length || 0}
+                            </p>
                         </div>
                     </div>
                 </div>
