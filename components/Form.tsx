@@ -9,6 +9,7 @@ import usePosts from '@/hooks/usePosts';
 
 import Avatar from './Avatar';
 import Button from './Button';
+import usePost from '@/hooks/usePost';
 
 interface FormProps {
     placeholder: string;
@@ -26,6 +27,7 @@ const Form: React.FC<FormProps> = ({
 
     const { data: currentUser } = useCurrentUser();
     const { mutate: mutatePosts } = usePosts();
+    const { mutate: mutatePost } = usePost(postId as string);
 
     const [body, setBody] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -34,19 +36,22 @@ const Form: React.FC<FormProps> = ({
         try {
             setIsLoading(true);
 
-            await axios.post('/api/posts', { body });
+            const url = isComment ? `/api/comments?postId=${postId}` : '/api/posts';
+
+            await axios.post(url, { body });
 
             toast.success('Post created');
 
             setBody('');
             mutatePosts();
+            mutatePost();
         } catch (error) {
             toast.error('Something went wrong');
         } finally {
             setIsLoading(false);
         }
     
-    }, [body, mutatePosts]);
+    }, [body, mutatePosts, isComment, postId, mutatePost]);
 
     return (
         <div className="border-b-[1px] border-neutral-800 px-5 py-2">

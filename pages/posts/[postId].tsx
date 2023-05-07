@@ -6,6 +6,7 @@ import usePost from "@/hooks/usePost";
 import Header from "@/components/Header";
 import Form from "@/components/Form";
 import PostItem from "@/components/posts/PostItem";
+import CommentFeed from "@/components/posts/CommentFeed";
 
 
 const PostView = () => {
@@ -29,7 +30,9 @@ const PostView = () => {
             <Form
                 postId={postId as string}
                 isComment
-                placeholder="Post your comment" />
+                placeholder="Post your comment" 
+            />
+            <CommentFeed comments={fetchedPost?.comments} />
         </>
     );
 }
