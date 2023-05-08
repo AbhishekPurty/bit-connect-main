@@ -1,16 +1,22 @@
 import { useRouter } from "next/router";
 import { useCallback } from "react";
-import { FaFeather} from 'react-icons/fa'
+import { IoIosCreate } from 'react-icons/io'
 
 import useLoginModal from "@/hooks/useLoginModal";
+import useCurrentUser from "@/hooks/useCurrentUser";
 
 const SidebarTweetButton = () => {
     const router = useRouter();
     const loginModal = useLoginModal();
+    const { data: currentUser } = useCurrentUser();
 
     const onClick = useCallback(() => {
-        loginModal.onOpen();
-    }, [loginModal]);
+        if(!currentUser) {
+            return loginModal.onOpen();
+        }
+        
+        router.push('/');
+    }, [loginModal,router,currentUser]);
 
     return (
         <div onClick={onClick}>
@@ -34,7 +40,7 @@ const SidebarTweetButton = () => {
                     cursor-pointer
                 "
             >
-                <FaFeather size={24} color="white" />
+                <IoIosCreate size={24} color="white" />
             </div>
             {/* Desktop view */}
             <div className="
